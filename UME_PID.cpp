@@ -14,7 +14,7 @@ pid::pid( double p, double i, double d ) {
 
 double pid::get_pid(double target, double now) {
 	En = target - now;
-	integ += Ki * (En - En_1);
+	integ += Ki * En;
 	b = integ + Kd * En + Kd * ((En - En_1) - (En_1 - En_2));
 	En_1 = En;
 	En_2 = En_1;
