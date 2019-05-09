@@ -25,6 +25,8 @@ public:
 #include "pid.h"
 #include <stdio.h>
 
+
+
 pid::pid( double p, double i, double d ) {
 	Kp = p;
 	Ki = i;
@@ -36,7 +38,7 @@ pid::pid( double p, double i, double d ) {
 
 double pid::get_pid(double target, double now) {
 	En = target - now;
-	integ += Ki * En;
+	integ = Ki * En_2 + Ki * En_2 + Ki * En;
 	b = integ + Kd * En + Kd * ((En - En_1) - (En_1 - En_2));
 	En_1 = En;
 	En_2 = En_1;
@@ -46,3 +48,4 @@ double pid::get_pid(double target, double now) {
 pid::~pid() {
 
 }
+
