@@ -1,25 +1,26 @@
-class UME_PID{
-    private:
-        double Kp,   //Proportion
-              Ki,   //Integral
-              Kd,   //differential
-              En,   //now
-              En_1, //before
-              En_2, //more before
-              b;
-    public:
-        UME_PID(double, double, double);
-        double get_pid(double, double);
-};
-UME_PID::UME_PID(double p, double i, double d){
-    Kp = p;
-    Ki = i;
-    Kd = d;
+#include "pid.h"
+#include <stdio.h>
+
+
+
+pid::pid( double p, double i, double d ) {
+	Kp = p;
+	Ki = i;
+	Kd = d;
+	integ = 0;
+	En_1 = 0;
+	En_2 = 0;
 }
-double UME_PID::get_pid(double target, double now){
-    En = target - now;
-    b = Kp * (En - En_1) + Ki * En + Kd * ((En - En_1) - (En_1 - En_2));
-    En_1 = En;
-    En_1 = En_2;
-    return b;
+
+double pid::get_pid(double target, double now) {
+	En = target - now;
+	integ += Ki * (En - En_1);
+	b = integ + Kd * En + Kd * ((En - En_1) - (En_1 - En_2));
+	En_1 = En;
+	En_2 = En_1;
+	return b;
+}
+
+pid::~pid() {
+
 }
